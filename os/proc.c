@@ -7,6 +7,7 @@
 struct proc pool[NPROC];
 __attribute__((aligned(16))) char kstack[NPROC][PAGE_SIZE];
 __attribute__((aligned(4096))) char trapframe[NPROC][TRAP_PAGE_SIZE];
+TaskInfo task_info_pool[NPROC];
 
 extern char boot_stack_top[];
 struct proc *current_proc;
@@ -33,6 +34,8 @@ void proc_init(void)
 		/*
 		* LAB1: you may need to initialize your new fields of proc here
 		*/
+		p->info = &task_info_pool[p-pool];
+        p->info->status = UnInit;
 	}
 	idle.kstack = (uint64)boot_stack_top;
 	idle.pid = 0;
@@ -86,6 +89,7 @@ void scheduler(void)
 				/*
 				* LAB1: you may need to init proc start time here
 				*/
+				p->info->time = 0;
 				p->state = RUNNING;
 				current_proc = p;
 				swtch(&idle.context, &p->context);
