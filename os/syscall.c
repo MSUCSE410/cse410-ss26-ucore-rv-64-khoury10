@@ -77,9 +77,11 @@ int sys_task_info(uint64 va) {
         ti->syscall_times[i] = p->info->syscall_times[i];
     }
 
-    uint64 cycle = get_cycle();
+    // uint64 cycle = get_cycle();
     // ti->time = (cycle % CPU_FREQ) * 1000 / CPU_FREQ;
-	ti->time = cycle / (CPU_FREQ / 1000); 
+    uint64 now = get_cycle() / (CPU_FREQ / 1000);
+    ti->time = now - p->info->time; 
+
     return 0;
 }
 
@@ -106,7 +108,7 @@ uint64 sys_mmap(uint64 start, uint64 len, int port, int flag, int fd) {
 
     for (uint64 addr = start; addr < start + aligned_len; addr += PGSIZE) {
         void *pa = kalloc();
-       if (pa == 0) {return -1; }
+        if (pa == 0) {return -1; }
         memset(pa, 0, PGSIZE);
 
         if (mappages(p->pagetable, addr, PGSIZE, (uint64)pa, perm) != 0) {

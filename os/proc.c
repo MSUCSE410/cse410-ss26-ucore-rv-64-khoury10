@@ -89,7 +89,7 @@ void scheduler(void)
 				/*
 				* LAB1: you may need to init proc start time here
 				*/
-				p->info->time = 0;
+				// p->info->time = 0;
 				p->state = RUNNING;
 				current_proc = p;
 				swtch(&idle.context, &p->context);
