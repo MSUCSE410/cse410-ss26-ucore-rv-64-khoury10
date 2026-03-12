@@ -35,6 +35,7 @@ uint64 sys_sched_yield()
 	return 0;
 }
 
+// modified this
 uint64 sys_gettimeofday(uint64 va, int _tz) // TODO: implement sys_gettimeofday in pagetable. (VA to PA)
 {
 	struct proc *p = curr_proc();
@@ -54,6 +55,7 @@ uint64 sys_gettimeofday(uint64 va, int _tz) // TODO: implement sys_gettimeofday 
 }
 
 
+//created thus
 uint64 sys_getpid() {return curr_proc()->pid;}
 
 // TODO: add support for mmap and munmap syscall.
@@ -62,6 +64,8 @@ uint64 sys_getpid() {return curr_proc()->pid;}
 /*
 * LAB1: you may need to define sys_task_info here
 */
+
+//modified this
 int sys_task_info(uint64 va) {
 	struct proc *p = curr_proc();
 
@@ -85,6 +89,7 @@ int sys_task_info(uint64 va) {
     return 0;
 }
 
+//made this
 uint64 sys_mmap(uint64 start, uint64 len, int port, int flag, int fd) {
     if (len == 0) return 0;
     if (len > MAX_MMAP_SIZE) return -1;
@@ -120,6 +125,7 @@ uint64 sys_mmap(uint64 start, uint64 len, int port, int flag, int fd) {
     return 0;
 }
 
+//made this func
 uint64 sys_munmap(uint64 start, uint64 len) {
     if (start % PGSIZE != 0) return -1;
 
@@ -139,6 +145,7 @@ uint64 sys_munmap(uint64 start, uint64 len) {
 
 extern char trap_page[];
 
+//added cases
 void syscall()
 {
 	struct trapframe *trapframe = curr_proc()->trapframe;
